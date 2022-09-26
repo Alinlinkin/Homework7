@@ -1,10 +1,10 @@
 ﻿int LineTwoDimensionalArray()
 {
-    Console.Write("Введите колличество строк в двухмерном массиве: ");
+    Console.Write("Введите количество строк в двухмерном массиве: ");
     bool parseNIsOk = int.TryParse(Console.ReadLine(), out int line);
     if (!parseNIsOk)
     {
-        Console.WriteLine("Введено значение некорректного формата, введите заново");
+        Console.WriteLine("Введено значение некорректного формата, попробуйте написать число :) ");
         return LineTwoDimensionalArray();
     }
     else
@@ -15,11 +15,11 @@
 
 int ColumnTwoDimensionalArray()
 {
-    Console.Write("Введите колличество столбцов в двухмерном массиве: ");
+    Console.Write("Введите количество столбцов в двухмерном массиве: ");
     bool parseNIsOk = int.TryParse(Console.ReadLine(), out int column);
     if (!parseNIsOk)
     {
-        Console.WriteLine("Введено значение некорректного формата, попробуйте число цифрами :) ");
+        Console.WriteLine("Введено значение некорректного формата, попробуйте написать число :) ");
         return ColumnTwoDimensionalArray();
     }
     else
@@ -39,11 +39,11 @@ int[,] MakeTwoDimensionalArray()
 int RandomNumbersStart()
 {
 
-    Console.Write("Введите число, с которого начнется генерация рандомных чисел: ");
+    Console.Write("Введите число, с которого начнется генерация рандомных цифр: ");
     bool parseNIsOk = int.TryParse(Console.ReadLine(), out int start);
     if (!parseNIsOk)
     {
-        Console.WriteLine("Введено значение некорректного формата, попробуйте число цифрами :)");
+        Console.WriteLine("Введено значение некорректного формата, попробуйте написать число :) ");
         return RandomNumbersStart();
     }
     else
@@ -55,11 +55,11 @@ int RandomNumbersStart()
 
 int RandomNumbersEnd()
 {
-    Console.Write("Введите число, которым закончится генерация рандомных чисел: ");
+    Console.Write("Введите число, которым закончится генерация рандомных цифр: ");
     bool parseMIsOk = int.TryParse(Console.ReadLine(), out int finish);
     if (!parseMIsOk)
     {
-        Console.WriteLine("Введено значение некорректного формата, попробуйте число цифрами :)");
+        Console.WriteLine("Введено значение некорректного формата, попробуйте написать число :) ");
         return RandomNumbersEnd();
     }
     else
@@ -98,19 +98,25 @@ void WriteTwoDimensionalArray(int[,] array)
     }
 }
 
-string FindNumber(int line, int column, int[,] array)
+string ArithmeticMeanOfElements(int[,] array)
 {
     string result = string.Empty;
-    if (array.GetLength(0) < line || array.GetLength(1) < column)
-    {
-        result = "под такими позициями элементы в массиве не существуют";
-        return result;
-    }
+    double count = 0;
 
+    for (int i = 0; i < array.GetLength(1); i++)
     {
-        result = Convert.ToString(array[line, column]);
-        return result;
+        for (int j = 0; j < array.GetLength(0); j++)
+
+        {
+            count = count + array[j, i];
+        }
+
+        count = count / array.GetLength(0);
+        if (i == (array.GetLength(1) - 1)) result = result + count + ".";
+        else result = result + count + "; ";
+        count = 0;
     }
+    return result;
 }
 
 int[,] array = MakeTwoDimensionalArray();
@@ -119,17 +125,5 @@ int finishtRandom = RandomNumbersEnd();
 array = FillTwoDimensionalArray(array, startRandom, finishtRandom);
 WriteTwoDimensionalArray(array);
 Console.WriteLine();
-
-try
-{
-    Console.Write("Введите число строки поиска в массиве: ");
-    int x = Int32.Parse(Console.ReadLine());
-    Console.Write("Введите число столбеца поиска в массиве: ");
-    int y = Int32.Parse(Console.ReadLine());
-    string result = FindNumber(x, y, array);
-    Console.WriteLine($"Результат : {result}");
-}
-catch
-{
-    Console.Write("Ошибка: не верно введены данные.");
-}
+string result = ArithmeticMeanOfElements(array);
+Console.WriteLine($"Среднее арифметическое каждого столбца : {result}");
